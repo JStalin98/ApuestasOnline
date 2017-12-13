@@ -4,76 +4,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_centerHorizontal="false"
-    android:orientation="vertical"
     tools:context="com.example.jstalin.apuestasonline.MainActivity">
 
 
     <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/textView_title"
+        style="@style/title"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="APUESTAS ONLINE"
-        android:textAlignment="center"
+        android:layout_marginTop="8dp"
+        android:text="@string/title_main"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <TextView
+        android:id="@+id/textView_welcome"
+        style="@style/title"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_title" />
+
+
     <Button
-        android:id="@+id/botonRegistro"
+        android:id="@+id/button_registry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:layout_marginEnd="16dp"
-        android:text="REGISTRO"
-        app:layout_constraintBottom_toTopOf="@+id/guiaCentroHorizontal"
-        app:layout_constraintEnd_toStartOf="@+id/guiaCentroVertical" />
+        android:layout_marginEnd="8dp"
+        android:background="@color/colorAccent"
+        android:onClick="openRegistry"
+        android:text="@string/button_registry"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintEnd_toStartOf="@+id/guideline8"
+        android:layout_marginRight="8dp" />
 
     <Button
-        android:id="@+id/botonApuestas"
+        android:id="@+id/button_bets"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
         android:layout_marginBottom="24dp"
-        android:layout_marginStart="16dp"
-        android:text="APUESTAS"
-        app:layout_constraintBottom_toTopOf="@+id/guiaCentroHorizontal"
-        app:layout_constraintStart_toStartOf="@+id/guiaCentroVertical" />
+        android:layout_marginStart="8dp"
+        android:onClick="openBets"
+        android:text="@string/button_bets"
+        app:layout_constraintBottom_toTopOf="@+id/guideline7"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        android:layout_marginLeft="8dp" />
 
     <Button
-        android:id="@+id/botonAjustes"
+        android:id="@+id/button_settings"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:background="@color/colorAccent"
+        android:layout_marginEnd="4dp"
         android:layout_marginTop="24dp"
-        android:text="AJUSTES"
-        app:layout_constraintEnd_toStartOf="@+id/guiaCentroVertical"
-        app:layout_constraintTop_toTopOf="@+id/guiaCentroHorizontal" />
+        android:onClick="openSettings"
+        android:text="@string/button_settings"
+        app:layout_constraintEnd_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toTopOf="@+id/guideline7"
+        android:layout_marginRight="4dp" />
 
     <Button
-        android:id="@+id/botonSorteo"
+        android:id="@+id/button_draw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:background="@color/colorAccent"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
-        android:text="SORTEO"
-        app:layout_constraintStart_toStartOf="@+id/guiaCentroVertical"
-        app:layout_constraintTop_toTopOf="@+id/guiaCentroHorizontal" />
+        android:onClick="openDraw"
+        android:text="@string/button_draw"
+        app:layout_constraintStart_toStartOf="@+id/guideline8"
+        app:layout_constraintTop_toTopOf="@+id/guideline7"
+        android:layout_marginLeft="8dp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guiaCentroVertical"
+        android:id="@+id/guideline7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.66" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guiaCentroHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.55" />
 
 </android.support.constraint.ConstraintLayout>

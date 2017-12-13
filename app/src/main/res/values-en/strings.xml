@@ -1,9 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ApuestasOnline</string>
-    <!-- STRINGS MAIN-->
+    <string name="app_name">Online Bets</string>
 
 
+    <string name="button_return">RETURN</string>
+
+    <!-- STRINGS MAIN -->
+
+    
+    
+    <string name="title_main">Online Bets</string>
+
+    <string name="text_welcome">Welcome</string>
+    
+    <string name="button_registry">REGISTRY</string>
+    <string name="button_bets">BETSS</string>
+    <string name="button_settings">SETTINGS</string>
+    <string name="button_draw">DRAW</string>
+
+    <!-- STRINGS SETTINGS -->
+
+    <string name="title_monet">Money</string>
+    <string name="title_combination">Combination</string>
+
+    <string name="text_moneybet">Money Bet</string>
+
+    <string name="hint_number1">Number 1</string>
+    <string name="hint_number2">Number 2</string>
 
 
+    <string name="button_save">SAVE</string>
+
+    <!-- STRINGS BETS -->
+
+    <string name="title_bets">BETS</string>
+
+    <string name="text_football">Football</string>
+    <string name="text_tennis">Tennis</string>
+    <string name="text_basketball">Basketball</string>
+    <string name="text_handball">Handball</string>
+
+    <string name="button_accept">ACCEPT</string>
+
+    <!-- STRINGS REGISTRY -->
+
+    <string name="title_registry">REGISTRY</string>
+
+    <string name="hint_name">Name</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_birthdate">Birthdate (dd/mm/aaaa)</string>
+
+    <string name="error_email">Email not is valid</string>
+
+    <string name="button_validate">VALIDATE</string>
+
+
+    <!-- STRINGS DRAW -->
+
+    <!-- STRINGS INFORMATION -->
+
+    <string name="title_information">Information</string>
+    <string name="text_user">User:</string>
+    <string name="text_bet">Category Bet:</string>
+    <string name="text_teams">Teams:</string>
+    <string name="text_money">Money Bet:</string>
+    <string name="text_result">Result Provied:</string>
+
+    <!-- STRINGS ABOUT -->
+
+    <string name="title_about">About</string>
+
+    <string name="text_author">Author: </string>
+    <string name="value_autor">JStalin Andrade</string>
+    <string name="text_year">Year: </string>
+    <string name="value_year">2017</string>
+
+
+    <!-- STRINGS HELP -->
+
+    <string name="text_help">Lorem-----</string>
+
+    <!-- STRINGS MENU -->
+
+    <string name="option_about">About.</string>
+    <string name="option_help">Help</string>
+    <string name="option_informationBet">Information of the bet</string>
+
+
+    <!-- STRING MENSSAGES -->
+
+
+    <string name="text_tab1">Money</string>
+    <string name="text_tab2">Combination</string>
+
+    <string name="error_registry">Error uou can not be ifo you have not registered</string>
+    <string name="error_bet">Error you can not make adjustments if you have not selected the type of bet</string>
+    <string name="error_draw">This functionality is not available at this time, try it later</string>
+
+    <string name="text_acceptRegistry">You are registered</string>
+    <string name="error_missignDate">Error, missing data</string>
+    <string name="error_younger">A minor can not register in this application</string>
+
+    <string name="menssage_no_bet">You have not selected any bet</string>
+    <string name="menssage_some_bet">The Lite version only supports one type of bet. Buy our paid version</string>
+    <string name="menssage_one_bet">Bet saved</string>
+
+
+    <string name="text_acceptSettings">Settings saved</string>
+    <string name="error_no_bets">Choose your bet</string>
+    <string name="error_no_numbers">Choose your winning combination</string>
+    <string name="error_no_between">Error, each combination must be between 0 and 300</string>
 
 </resources>

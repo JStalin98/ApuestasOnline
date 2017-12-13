@@ -30,7 +30,7 @@
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
     <string-array name="MoneyBet">
-        <item>£</item>
+        <item>€</item>
         <item>1</item>
         <item>2</item>
         <item>5</item>

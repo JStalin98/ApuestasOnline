@@ -5,42 +5,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp"
     tools:context="com.example.jstalin.apuestasonline.MainActivity">
 
 
     <TextView
         android:id="@+id/textView_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/title_main"
-        android:textAlignment="center"/>
+        style="@style/title"
+        android:textStyle="bold"/>
+
+
+    <TextView
+        android:id="@+id/textView_welcome"
+        style="@style/title" />
+
 
     <Button
         android:id="@+id/button_registry"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/button_registry"
+        style="@style/button"
+        android:layout_width="match_parent"
         android:onClick="openRegistry"/>
 
     <Button
         android:id="@+id/button_bets"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
         android:text="@string/button_bets"
+        style="@style/button"
+        android:layout_width="match_parent"
         android:onClick="openBets"/>
 
     <Button
         android:id="@+id/button_settings"
+        style="@style/button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_settings"
-        android:onClick="openSettings"/>
+        android:onClick="openSettings"
+        android:text="@string/button_settings" />
 
     <Button
         android:id="@+id/button_draw"
+        style="@style/button"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/button_draw"
-        android:onClick="openDraw"/>
+        android:onClick="openDraw"
+        android:text="@string/button_draw" />
 
 </LinearLayout>

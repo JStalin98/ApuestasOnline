@@ -5,6 +5,9 @@
         android:id="@+id/option_about"
         android:title="@string/option_about"></item>
     <item
+        android:id="@+id/option_informationBet"
+        android:title="@string/option_informationBet"></item>
+    <item
         android:id="@+id/option_help"
         android:icon="@drawable/icon_help"
         android:title="@string/option_help"

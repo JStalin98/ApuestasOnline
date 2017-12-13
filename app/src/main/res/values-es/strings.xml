@@ -1,9 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ApuestasOnline</string>
-    <!-- STRINGS MAIN-->
+
+
+    <string name="button_return">VOLVER</string>
+
+    <!-- STRINGS MAIN -->
+
+    
+    
+    <string name="title_main">APUESTAS ONLINE</string>
+
+    <string name="text_welcome">Bienvenido</string>
+    
+    <string name="button_registry">REGISTRO</string>
+    <string name="button_bets">APUESTAS</string>
+    <string name="button_settings">AJUSTES</string>
+    <string name="button_draw">SORTEO</string>
+
+    <!-- STRINGS SETTINGS -->
+
+    <string name="title_monet">DINERO</string>
+    <string name="title_combination">Combinacion</string>
+
+    <string name="text_moneybet">Dinero a Apostar</string>
+    <string name="list_bet_item1">1</string>
+    <string name="list_bet_item2">2</string>
+    <string name="list_bet_item3">5</string>
+    <string name="list_bet_item4">10</string>
+
+    <string name="hint_number1">Numero 1</string>
+    <string name="hint_number2">Numero 2</string>
 
 
 
+    <string name="button_save">GUARDAR</string>
 
+    <!-- STRINGS BETS -->
+
+    <string name="title_bets">APUESTAS</string>
+
+    <string name="text_football">Fútbol</string>
+    <string name="text_tennis">Tenis</string>
+    <string name="text_basketball">Baloncesto</string>
+    <string name="text_handball">Balonmano</string>
+
+    <string name="button_accept">ACEPTAR</string>
+
+    <!-- STRINGS REGISTRY -->
+
+    <string name="title_registry">REGISTRO</string>
+
+    <string name="hint_name">Nombre</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_birthdate">Fecha Nacimiento (dd/mm/aaaa)</string>
+
+    <string name="error_email">Email no es valido</string>
+
+    <string name="button_validate">VALIDAR</string>
+
+
+    <!-- STRINGS DRAW -->
+
+    <!-- STRINGS INFORMATION -->
+
+    <string name="title_information">Informacion</string>
+    <string name="text_user">Usuario:</string>
+    <string name="text_bet">Categoria Apuesta:</string>
+    <string name="text_teams">Equipos:</string>
+    <string name="text_money">Dinero de apuesta:</string>
+    <string name="text_result">Resultado previsto:</string>
+
+    <!-- STRINGS ABOUT -->
+
+    <string name="title_about">Acerca de</string>
+
+    <string name="text_author">Autor: </string>
+    <string name="value_autor">JStalin Andrade</string>
+    <string name="text_year">Año: </string>
+    <string name="value_year">2017</string>
+
+
+    <!-- STRINGS HELP -->
+
+    <string name="text_help">Lorem-----</string>
+
+    <!-- STRINGS MENU -->
+
+    <string name="option_about">Acerca de...</string>
+    <string name="option_help">Ayuda</string>
+    <string name="option_informationBet">Informacion de la Auesta</string>
+
+
+    <!-- STRING MENSSAGES -->
+
+
+    <string name="text_tab1">Dinero</string>
+    <string name="text_tab2">Combinacion</string>
+    <string name="s"></string>
+
+    <string name="error_registry">Error no puedes apostar si no te has registrado</string>
+    <string name="error_bet">Error no puedes realizar ajustes si no has seleccionado el tipo de apuesta</string>
+    <string name="error_draw">Esta funcionalidad no se encuentra disponible en estos momentos, intentelo mas tarde</string>
+
+    <string name="text_acceptRegistry">Quedas registrado</string>
+    <string name="error_missignDate">Error, faltan faltan datos</string>
+    <string name="error_younger">Un menor no puede registrarse en esta aplicacion</string>
+
+    <string name="menssage_no_bet">No has seleccionado ninguna apuesta</string>
+    <string name="menssage_some_bet">La version Lite solo admite un tipo de apuesta. Compra nuestra version de Pago</string>
+    <string name="menssage_one_bet">Apuesta Guardada</string>
+
+
+    <string name="text_acceptSettings">Ajustes Guaradados</string>
+    <string name="error_no_bets">Elige tu Apuesta</string>
+    <string name="error_no_numbers">Elige tu combinacion ganadora</string>
+    <string name="error_no_between">Error, cada combinacion debe ser entre 0 y 300</string>
 
 </resources>
