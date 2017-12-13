@@ -78,7 +78,14 @@
 
     <!-- STRINGS HELP -->
 
-    <string name="text_help">Lorem-----</string>
+    <string name="text_help">For the correct operation of the application
+First you must register
+Then Select the bet
+Finally set the bet
+Once registered you can see the status of your bet
+from the option Information of the bet in the options menu
+thanks for your attention
+For more information visit our website jstalyn.esy.es</string>
 
     <!-- STRINGS MENU -->
 

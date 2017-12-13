@@ -7,12 +7,11 @@
 
     <!-- STRINGS MAIN -->
 
-    
-    
+
     <string name="title_main">APUESTAS ONLINE</string>
 
     <string name="text_welcome">Bienvenido</string>
-    
+
     <string name="button_registry">REGISTRO</string>
     <string name="button_bets">APUESTAS</string>
     <string name="button_settings">AJUSTES</string>
@@ -31,7 +30,6 @@
 
     <string name="hint_number1">Numero 1</string>
     <string name="hint_number2">Numero 2</string>
-
 
 
     <string name="button_save">GUARDAR</string>
@@ -83,7 +81,14 @@
 
     <!-- STRINGS HELP -->
 
-    <string name="text_help">Lorem-----</string>
+    <string name="text_help">Para el correcto funcionamiento de la aplicacion
+Primero debe registrarse
+Luego Seleccionar la apuesta
+Por ultimo configurar la apuesta
+Una vez registrado podra ver el estado de su apuesta
+desde la opcion Informacion de la apuesta en el menu de opciones
+Agradecemos su atencion
+Para mayor informacion visiten nuestra pagina jstalyn.esy.es</string>
 
     <!-- STRINGS MENU -->
 
