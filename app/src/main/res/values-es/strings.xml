@@ -95,6 +95,8 @@
     <!-- STRING MENSSAGES -->
 
 
+    <string name="error_noregistred">No se ha registrado</string>
+
     <string name="text_tab1">Dinero</string>
     <string name="text_tab2">Combinacion</string>
     <string name="s"></string>

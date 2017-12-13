@@ -390,7 +390,7 @@ public class MainActivity extends AppCompatActivity {
         if (isRegistry) { // Comprobamos si se ha registrado
             startActivity(intentInformation);
         } else {
-            messageError = getString(R.string.error_registry);
+            messageError = getString(R.string.error_noregistred);
             Toast.makeText(MainActivity.this, messageError, Toast.LENGTH_SHORT).show();
         }
 

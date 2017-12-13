@@ -89,6 +89,7 @@
 
     <!-- STRING MENSSAGES -->
 
+    <string name="error_noregistred">You are not registred</string>
 
     <string name="text_tab1">Money</string>
     <string name="text_tab2">Combination</string>
