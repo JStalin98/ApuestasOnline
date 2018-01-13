@@ -1,8 +1,10 @@
-package com.example.jstalin.apuestasonline;
+package com.example.jstalin.apuestasonline.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+
+import com.example.jstalin.apuestasonline.R;
 
 /**
  * Clase que muestra informacion de ayuda al usuario

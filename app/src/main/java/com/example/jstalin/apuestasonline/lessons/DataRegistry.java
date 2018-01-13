@@ -1,9 +1,12 @@
-package com.example.jstalin.apuestasonline;
+package com.example.jstalin.apuestasonline.lessons;
 
 /**
  * Created by JStalin on 11/01/2018.
  */
 
+/**
+ * Clase que contiene informacion que se almacena en el control de registro
+ */
 public class DataRegistry {
 
     private String name;

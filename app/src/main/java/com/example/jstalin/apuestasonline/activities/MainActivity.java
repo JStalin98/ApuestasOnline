@@ -1,4 +1,4 @@
-package com.example.jstalin.apuestasonline;
+package com.example.jstalin.apuestasonline.activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,23 +11,19 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.jstalin.apuestasonline.R;
+
 /**
  * Clase principal de la cual se ejecutaran las diferentes Actividades
  */
 public class MainActivity extends AppCompatActivity {
 
-    // Objeto que permite guardar configuracion en un archivo
-    private SharedPreferences preferences;
-    // Objeto que permite editar el archivo de configuracion
-    private SharedPreferences.Editor editor;
-
-
     // Variables que se alamacenaran en el fichero de configruacion
-    private String user;
-    private String bet;
-    private String moneyBet;
-    private String teams;
-    private String result;
+    private String user = "";
+    private String bet = "";
+    private String moneyBet = "";
+    private String teams = "";
+    private String result = "";
 
 
     // Intents que se utilizaran para abrir las diferente actividades
@@ -39,7 +35,13 @@ public class MainActivity extends AppCompatActivity {
     private Intent intentAbout;
     private Intent intentHelp;
 
-    // Referencia a un campo de texto que contendra un mensaje de biencenida
+    // Refernecia del id de cada una de las opciones del Menu
+    private final int OPTION_ABOUT = R.id.option_about;
+    private final int OPTION_HELP = R.id.option_help;
+    private final int OPTION_INFORMATION = R.id.option_informationBet;
+
+
+    // Referencia a un campo de texto que contendra un mensaje de bienvenida
     private TextView welcome;
 
     // COdigos de los diferentes Intents
@@ -63,60 +65,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo que permite crear un menu de opciones
-     *
-     * @param menu
-     * @return
+     * Metodo que inicia los componentes y los enlaza con el XML
+     * Inicializa los intents
      */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu, menu); // Asignamos el xml con el menu
-        return true;
-    }
+    private void initComponents() {
 
-    /**
-     * Metodo que permite gestionar las acciones sobre los items del menu
-     *
-     * @param item
-     * @return
-     */
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+        // Intanciamos cada unos de los intents que van a ser lanzados
 
-        int selection = item.getItemId(); // Obtenemos el item seleccionado
+        this.intentRegistry = new Intent(this, RegistryActivity.class);
+        this.intentBets = new Intent(this, BetsActivity.class);
+        this.intentSettings = new Intent(this, SettingsActivity.class);
+        this.intentDraw = new Intent(this, DrawActivity.class);
+        this.intentAbout = new Intent(this, AboutActivity.class);
+        this.intentHelp = new Intent(this, HelpActivity.class);
+        this.intentInformation = new Intent(this, InformationActivity.class);
 
-        switch (selection) { // Comprobamos cual ha sido
-            case R.id.option_about:
-                openAbout();
-                return true;
-            case R.id.option_help:
-                openHelp();
-                return true;
-            case R.id.option_informationBet:
-                openInformation();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
+        // Intanciamos el TextView
+        this.welcome = (TextView) findViewById(R.id.textView_welcome);
 
     }
 
-    /**
-     * Metodo que permite tratar los resultados que devuelven las actividades
-     *
-     * @param requestCode
-     * @param resultCode
-     * @param data
-     */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        tryAnswers(requestCode, resultCode, data); // Llamamos al emtodo tryAnswers
-    }
 
     /**
      * MEtodo que permite guardar el estado de la actividad
+     *
      * @param state
      */
     @Override
@@ -144,18 +116,19 @@ public class MainActivity extends AppCompatActivity {
         if (result != null)
             state.putString("result", result);
 
-        if(isRegistry)
+        if (isRegistry)
             state.putBoolean("isregistry", isRegistry);
 
-        if(isBet)
+        if (isBet)
             state.putBoolean("isbet", isBet);
 
         // LLamamos al metodo sendPreferences
-        sendPreferences();
+        //sendPreferences();
     }
 
     /**
      * Metodo que permite restaurar una actividad
+     *
      * @param state
      */
     @Override
@@ -168,9 +141,10 @@ public class MainActivity extends AppCompatActivity {
             // Restauramos el valor de las variables
             this.user = state.getString("user");
             this.bet = state.getString("bet");
-            this.moneyBet = state.getString("monetbet");
+            this.moneyBet = state.getString("moneybet");
             this.teams = state.getString("teams");
             this.result = state.getString("result");
+
             isRegistry = state.getBoolean("isregistry");
             isBet = state.getBoolean("isbet");
         }
@@ -178,190 +152,42 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     /**
-     * MEtodo que permite introducir el valor de las variables
-     * en el archivo de configuracion
+     * Metodo que permite crear un menu de opciones
+     *
+     * @param menu
+     * @return
      */
-    private void sendPreferences() {
-
-        editor.putString("user", this.user);
-        editor.putString("bet", this.bet);
-        editor.putString("moneybet", this.moneyBet);
-        editor.putString("teams", this.teams);
-        editor.putString("result", this.result);
-        editor.commit();
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu); // Asignamos el xml con el menu
+        return true;
     }
 
-
     /**
-     * Metodo que permite tratar la respuesta de las actividades
-     * en funcion de su codigo
-     * @param requestCode --> Codigo que ha devuelto la actividad
-     * @param resultCode --> Codigo si ha ido correcto el proceso
-     * @param data --> Objeto con datos devueltos
+     * Metodo que permite gestionar las acciones sobre los items del menu
+     *
+     * @param item
+     * @return
      */
-    private void tryAnswers(int requestCode, int resultCode, Intent data) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch (requestCode) { // Comprobamos el cdogio de respuesta y tratamos en funcion de eello
-            case (REGISTRY_CODE):
-                if (resultCode == RESULT_OK) {
-                    responseActionRegistry(data);
-                }
-                break;
-            case (BETS_CODE):
-                if (resultCode == RESULT_OK) {
-                    responseActionBets(data);
-                }
-                break;
-            case (SETTINGS_CODE):
-                if (resultCode == RESULT_OK) {
-                    responseActionSettings(data);
-                }
-                break;
+        int selection = item.getItemId(); // Obtenemos el item seleccionado
+
+        switch (selection) { // Comprobamos cual ha sido
+            case OPTION_ABOUT:
+                openAbout();
+                return true;
+            case OPTION_HELP:
+                openHelp();
+                return true;
+            case OPTION_INFORMATION:
+                openInformation();
+                return true;
             default:
-                break;
-        }
-
-    }
-
-    /**
-     * Metodo que permite tratar los datos devueltos por la actividad Registro
-     * @param data
-     */
-    private void responseActionRegistry(Intent data) {
-
-        // Obtenemos el nombre
-        String name = data.getExtras().getString("name");
-        // ASignamos el nombre a la variable user
-        this.user = name;
-
-        // Mostramos mensaje de bienvenida
-        setWelcome(name);
-
-        // Enviamos el nombre obtenido al intent de informacion
-        this.intentInformation.putExtra("user", name);
-
-        // Cambiamos el valor de si esta registrado a verdadero
-        isRegistry = true;
-
-    }
-
-    /**
-     * MEtodo que permite ejecutar un mensaje de bienvenida
-     * @param name
-     */
-    private void setWelcome(String name) {
-        String stWelcome = getString(R.string.text_welcome);
-        String messageWelcome = stWelcome + "  " + name;
-
-        welcome.setText(messageWelcome);
-
-    }
-
-    /**
-     * Metodo que permite tratar los datos devueltos por la actividad Apuestas
-     * @param data
-     */
-    private void responseActionBets(Intent data) {
-
-        // Ontenemos los valores devueltos
-        String[] teams = (String[]) data.getExtras().get("teams");
-        String selectedBet = data.getExtras().getString("selectedbet");
-
-        // Los tratamos
-        this.bet = selectedBet;
-        this.teams = teams[0] + " - " + teams[1];
-
-        // Volvemos enviar la ifnormaciona los intent necesarios
-        this.intentSettings.putExtra("teams", teams);
-
-        this.intentInformation.putExtra("teams", teams);
-        this.intentInformation.putExtra("selectedbet", selectedBet);
-
-        // Cambiamos el valor de si ha hecho apuesta a verdadero
-        isBet = true;
-
-    }
-
-    /**
-     * Metodo que permite tratar los datos devueltos por la actividad Ajustes
-     * @param data
-     */
-    private void responseActionSettings(Intent data) {
-
-        // Obtenemos los valores devueltos
-        String moneyBet = data.getExtras().getString("moneybet");
-        String[] result = (String[]) data.getExtras().get("result");
-
-        // Los tratamos
-        this.moneyBet = moneyBet;
-        this.result = result[0] + " - " + result[1];
-
-        // Volvemos enviar la ifnormaciona los intent necesarios
-        this.intentInformation.putExtra("moneybet", moneyBet);
-        this.intentInformation.putExtra("result", result);
-
-    }
-
-
-    /**
-     * Metodo que se ejecutar al pulsar en el boton Registro
-     * @param v
-     */
-    public void openRegistry(View v) {
-        startActivityForResult(intentRegistry, REGISTRY_CODE);
-
-    }
-
-    /**
-     * Metodo que se ejecutar al pulsar en el boton Apuestas
-     * @param v
-     */
-    public void openBets(View v) {
-
-        String messageError = "";
-
-        if (isRegistry) { // Comprobamos si se ha registrado
-            startActivityForResult(intentBets, BETS_CODE);
-        } else {
-            messageError = getString(R.string.error_registry);
-            Toast.makeText(MainActivity.this, messageError, Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    /**
-     * Metodo que se ejecutar al pulsar en el boton Ajustes
-     * @param v
-     */
-    public void openSettings(View v) {
-
-        String messageError = "";
-
-        if (isBet) {// Comprobamos si ha hecho apuestas antes
-            startActivityForResult(intentSettings, SETTINGS_CODE);
-        } else {
-            messageError = getString(R.string.error_bet);
-            Toast.makeText(MainActivity.this, messageError, Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    /**
-     * Metodo que se ejecutar al pulsar en el boton Sorteo
-     * @param v
-     */
-    public void openDraw(View v) {
-
-        String messageError = "";
-
-        if (canDraw) {// Comprobamos si se puede realizar el sorteo
-            startActivity(intentDraw);
-        } else {
-            messageError = getString(R.string.error_draw);
-            Toast.makeText(MainActivity.this, messageError, Toast.LENGTH_SHORT).show();
+                return super.onOptionsItemSelected(item);
         }
 
     }
@@ -387,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
         String messageError = "";
 
         if (isRegistry) { // Comprobamos si se ha registrado
+            updateIntentInformation();
             startActivity(intentInformation);
         } else {
             messageError = getString(R.string.error_noregistred);
@@ -395,24 +222,220 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que actualiza la informacion que va ser enviada por el intent
+     */
+    private void updateIntentInformation() {
+
+        this.intentInformation.putExtra("user", this.user);
+        this.intentInformation.putExtra("selectedbet", this.bet);
+        this.intentInformation.putExtra("moneybet", this.moneyBet);
+        this.intentInformation.putExtra("teams", this.teams);
+        this.intentInformation.putExtra("result", this.result);
+
+    }
+
 
     /**
-     * Metodo que inicia los componentes y los enlaza con el XML
-     * Inicializa los intents
+     * Metodo que permite tratar los resultados que devuelven las actividades
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
      */
-    private void initComponents() {
-        this.intentRegistry = new Intent(this, RegistryActivity.class);
-        this.intentBets = new Intent(this, BetsActivity.class);
-        this.intentSettings = new Intent(this, SettingsActivity.class);
-        this.intentDraw = new Intent(this, DrawActivity.class);
-        this.intentAbout = new Intent(this, AboutActivity.class);
-        this.intentHelp = new Intent(this, HelpActivity.class);
-        this.intentInformation = new Intent(this, InformationActivity.class);
-        this.welcome = (TextView) findViewById(R.id.textView_welcome);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        tryAnswers(requestCode, resultCode, data); // Llamamos al emtodo tryAnswers
+    }
 
-        // Intanciamos los objetos para poder editar el archivo de configuracion
-        preferences = getSharedPreferences("data", this.MODE_PRIVATE);
-        editor = preferences.edit();
+    /**
+     * Metodo que permite tratar la respuesta de las actividades
+     * en funcion de su codigo
+     *
+     * @param requestCode --> Codigo que ha devuelto la actividad
+     * @param resultCode  --> Codigo si ha ido correcto el proceso
+     * @param data        --> Objeto con datos devueltos
+     */
+    private void tryAnswers(int requestCode, int resultCode, Intent data) {
+
+        switch (requestCode) { // Comprobamos el cdogio de respuesta y tratamos en funcion de eello
+            case (REGISTRY_CODE):
+                if (isResultOk(resultCode)) {
+                    responseActionRegistry(data);
+                }
+                break;
+            case (BETS_CODE):
+                if (isResultOk(resultCode)) {
+                    responseActionBets(data);
+                }
+                break;
+            case (SETTINGS_CODE):
+                if (isResultOk(resultCode)) {
+                    responseActionSettings(data);
+                }
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    /**
+     * Metodo que comprueba si el resultaod ha ido bien o no
+     *
+     * @param resultCode
+     * @return
+     */
+    private boolean isResultOk(int resultCode) {
+        return resultCode == RESULT_OK;
+    }
+
+    /**
+     * Metodo que permite tratar los datos devueltos por la actividad Registro
+     *
+     * @param data
+     */
+    private void responseActionRegistry(Intent data) {
+
+        // Obtenemos el nombre
+        String name = data.getExtras().getString("name");
+        // ASignamos el nombre a la variable user
+        this.user = name;
+
+        // Mostramos mensaje de bienvenida
+        setWelcome(name);
+
+        // Cambiamos el valor de si esta registrado a verdadero
+        isRegistry = true;
+
+    }
+
+    /**
+     * MEtodo que permite ejecutar un mensaje de bienvenida
+     *
+     * @param name
+     */
+    private void setWelcome(String name) {
+        String stWelcome = getString(R.string.text_welcome);
+        String messageWelcome = stWelcome + "  " + name;
+
+        welcome.setText(messageWelcome);
+
+    }
+
+    /**
+     * Metodo que permite tratar los datos devueltos por la actividad Apuestas
+     *
+     * @param data
+     */
+    private void responseActionBets(Intent data) {
+
+        // Ontenemos los valores devueltos
+        String[] teams = (String[]) data.getExtras().get("teams");
+        String selectedBet = data.getExtras().getString("selectedbet");
+
+        // Asignamos los valores obtenidos a las variables
+        this.bet = selectedBet;
+        this.teams = teams[0] + " - " + teams[1];
+
+
+        // Cambiamos el valor de si ha hecho apuesta a verdadero
+        isBet = true;
+
+    }
+
+    /**
+     * Metodo que permite tratar los datos devueltos por la actividad Ajustes
+     *
+     * @param data
+     */
+    private void responseActionSettings(Intent data) {
+
+        // Obtenemos los valores devueltos
+        String moneyBet = data.getExtras().getString("moneybet");
+        String[] result = (String[]) data.getExtras().get("result");
+
+        // Los tasignamos a las variables
+        this.moneyBet = moneyBet;
+        this.result = result[0] + " - " + result[1];
+
+    }
+
+    /**
+     * Metodo que se ejecutar al pulsar en el boton Registro
+     *
+     * @param v
+     */
+    public void openRegistry(View v) {
+        startActivityForResult(intentRegistry, REGISTRY_CODE);
+
+    }
+
+    /**
+     * Metodo que se ejecutar al pulsar en el boton Apuestas
+     *
+     * @param v
+     */
+    public void openBets(View v) {
+
+        String messageError = "";
+
+        if (isRegistry) { // Comprobamos si se ha registrado
+            startActivityForResult(intentBets, BETS_CODE);
+        } else {
+            messageError = getString(R.string.error_registry);
+            Toast.makeText(MainActivity.this, messageError, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+
+    /**
+     * Metodo que se ejecutar al pulsar en el boton Ajustes
+     *
+     * @param v
+     */
+    public void openSettings(View v) {
+
+        String messageError = "";
+
+        if (isBet) {// Comprobamos si ha hecho apuestas antes
+            updateIntenSettings();
+            startActivityForResult(intentSettings, SETTINGS_CODE);
+        } else {
+            messageError = getString(R.string.error_bet);
+            Toast.makeText(MainActivity.this, messageError, Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    /**
+     * Metodo actualiza la informacion que se va  enviar por el intent
+     */
+    private void updateIntenSettings() {
+
+        this.intentSettings.putExtra("teams", this.teams);
+
+    }
+
+
+    /**
+     * Metodo que se ejecutar al pulsar en el boton Sorteo
+     *
+     * @param v
+     */
+    public void openDraw(View v) {
+
+        String messageError = "";
+
+        if (canDraw) {// Comprobamos si se puede realizar el sorteo
+            startActivity(intentDraw);
+        } else {
+            messageError = getString(R.string.error_draw);
+            Toast.makeText(MainActivity.this, messageError, Toast.LENGTH_SHORT).show();
+        }
+
     }
 
 

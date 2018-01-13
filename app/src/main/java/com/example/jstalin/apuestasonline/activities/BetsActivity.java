@@ -1,12 +1,20 @@
-package com.example.jstalin.apuestasonline;
+package com.example.jstalin.apuestasonline.activities;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.Toast;
+
+import com.example.jstalin.apuestasonline.Interfaces.OnSelectSportListener;
+import com.example.jstalin.apuestasonline.R;
+import com.example.jstalin.apuestasonline.lessons.Sport;
+import com.example.jstalin.apuestasonline.lessons.SportAdapter;
+
+import java.util.ArrayList;
 
 /**
  * Clase que va a permitir seleccionar una apuesta
@@ -14,197 +22,123 @@ import android.widget.Toast;
 public class BetsActivity extends AppCompatActivity {
 
     // Codigos de cada tipo de apusesta
-    private static final int BET_FOOTBALL = 1;
-    private static final int BET_TENNIS = 2;
-    private static final int BET_BASKETBALL = 3;
-    private static final int BET_HANDBALL = 4;
+    private final int CODE_FOOTBALL = Sport.CODE_FOOTBALL;
+    private final int CODE_BASKETBALL = Sport.CODE_BASKETBALL;
+    private final int CODE_TENNIS = Sport.CODE_TENNIS;
+    private final int CODE_HANDBALL = Sport.CODE_HANDBALL;
+
+    //Deportes que se van a utilizar
+    private Sport football;
+    private Sport basketball;
+    private Sport tennis;
+    private Sport handball;
 
     // Almacenamiento de los equipos que se pueden seleccionar para la apuesta
-    private static final String[] TEAMS_FOOTBALL = {"Real Madrid", "Barcelona", "At. Madrid", "Valencia"};
-    private static final String[] TEAMS_TENNIS = {"Nadal", "Ferrer", "Songa", "Djokovic"};
-    private static final String[] TEAMS_BASKETBALL = {"Estudiantes", "Barcelona", "Real Madrid", "Joventut"};
-    private static final String[] TEAMS_HANDBALL = {"Naturhouse", "Granoller", "Barcelona", "Bidasoa"};
+    private final String[] TEAMS_FOOTBALL = {"Real Madrid", "Barcelona", "At. Madrid", "Valencia"};
+    private final String[] TEAMS_TENNIS = {"Nadal", "Ferrer", "Songa", "Djokovic"};
+    private final String[] TEAMS_BASKETBALL = {"Estudiantes", "Barcelona", "Real Madrid", "Joventut"};
+    private final String[] TEAMS_HANDBALL = {"Naturhouse", "Granoller", "Barcelona", "Bidasoa"};
 
     // Almacena los dos equipos de la apuesta
     private String[] teams;
     // Alamcena la categoria de la apusta
     private String selectedBet;
 
+    // RecyclerView que contiene la lista
+    private RecyclerView recyclcerSports;
 
-    // Referencias hacia los chckbox que puede seleccionar el usuario
-    private CheckBox checkFootball;
-    private CheckBox checkTennis;
-    private CheckBox checkBasketball;
-    private CheckBox checkHandball;
+    // Arraya Que contiene los deportes
+    private ArrayList<Sport> sports;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bets);
 
-        initComponents(); // INiciamos los componentes
+        initComponents(); // Iniciamos los componentes
     }
 
-    /**
-     * Metodo para guardar el estado de la actividad
-     *
-     * @param state
-     */
-    @Override
-    protected void onSaveInstanceState(Bundle state) {
-        super.onSaveInstanceState(state);
-        int betSelected = betSelected(); // Guardamos el codigo del
-        // del equipo que se encuentre selccionado en ese  instante
-        if (betSelected != 0) // Comprobamos si hay algun equipo seleccionado
-            state.putInt("betselected", betSelected); // Si lo hay enviamos el codigo del equipo
-
-
-    }
-
-    /**
-     * Metodo para restaurar la actividad
-     *
-     * @param state
-     */
-    @Override
-    protected void onRestoreInstanceState(Bundle state) {
-        super.onRestoreInstanceState(state);
-        if (state != null) { // Comprobamos si hay un estado guardado
-            int betSelected = state.getInt("betselected");
-            setSelectedBet(betSelected); // Volvemos a seleccionar la apuesta que se encontraba
-        }
-
-    }
-
-    /**
-     * Metodo que permite selccionar una categoria de apuesta dada su codigo
-     *
-     * @param code
-     */
-    private void setSelectedBet(int code) {
-        switch (code) {
-            case BET_FOOTBALL:
-                checkFootball.setChecked(true);
-                break;
-            case BET_TENNIS:
-                checkTennis.setChecked(true);
-                break;
-            case BET_BASKETBALL:
-                checkBasketball.setChecked(true);
-                break;
-            case BET_HANDBALL:
-                checkHandball.setChecked(true);
-                break;
-        }
-    }
-
-    /**
-     * Metodo que iniciara los componentes
-     */
     private void initComponents() {
 
-        checkFootball = (CheckBox) findViewById(R.id.checkBox_football);
-        checkTennis = (CheckBox) findViewById(R.id.checkBox_tennis);
-        checkBasketball = (CheckBox) findViewById(R.id.checkBox_basketball);
-        checkHandball = (CheckBox) findViewById(R.id.checkBox_handball);
+        // Instancimaos el recycler view a partir del XML
+        recyclcerSports = (RecyclerView) findViewById(R.id.recyclerSports);
 
+        // Intanciamos cada unos de los deportes que se va autilizar
+        this.football = new Sport(Sport.CODE_FOOTBALL, getString(R.string.text_football), R.drawable.logo_bbva);
+        this.basketball = new Sport(Sport.CODE_BASKETBALL, getString(R.string.text_basketball), R.drawable.logo_endesa);
+        this.tennis = new Sport(Sport.CODE_TENNIS, getString(R.string.text_tennis), R.drawable.logo_atp);
+        this.handball = new Sport(Sport.CODE_HANDBALL, getString(R.string.text_handball), R.drawable.logo_asobal);
+
+        // Instanciamos el array que los almacena
+        this.sports = new ArrayList<>();
+
+        setData();
+
+        configureRecyclerView();
     }
 
-
     /**
-     * Metodo que se ejecuta al pulsar el boton Volver
-     *
-     * @param v
+     * Metodo que añade los deportes
      */
-    public void actionReturn(View v) {
-        closeActiity();
-    }
+    private void setData() {
 
-    /**
-     * Metodo que finaliza la actividad actual
-     */
-    private void closeActiity() {
-        this.finish();
-    }
-
-
-    /**
-     * Metodo que se ejecuta al producir el boton Aceptar
-     *
-     * @param v
-     */
-    public void actionAccept(View v) {
-
-        String message = "";
-
-        if (validateBet()) {
-            sendData(); // Evnaimos los datos
-
-            message = getString(R.string.menssage_one_bet);
-            Toast.makeText(BetsActivity.this, message, Toast.LENGTH_SHORT).show();
-            closeActiity();
-        }
+        this.sports.add(football);
+        this.sports.add(basketball);
+        this.sports.add(tennis);
+        this.sports.add(handball);
 
     }
 
     /**
-     * Metodo que permite enviar el resultado
-     * a la actividad que la lanzo
+     * Metodo que configura el recycler view
      */
-    private void sendData() {
+    private void configureRecyclerView() {
 
+        // Creamos el adaptador que va a utilizar
+        final SportAdapter adapter = new SportAdapter(sports);
 
-        Intent intent = new Intent();
+        // Creamos el Layout Manayer que va a utilizar
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        // Enviamos los datos necesarios
-        intent.putExtra("teams", this.teams);
-        intent.putExtra("selectedbet", this.selectedBet);
+        // Le asignamos el evento que se produce al seleccionar un item
+        SportAdapter.SportViewHolder.setOnSelectSportListener(new OnSelectSportListener() {
+            @Override
+            public void onSelectedSport(View v, int code) {
 
-        // indicamos que todo ha ido correctamente
-        setResult(RESULT_OK, intent);
+                actionSelectedBet(code);
+            }
+        });
+
+        // Asignamos el adaptador y el layout manager
+        recyclcerSports.setLayoutManager(linearLayoutManager);
+        recyclcerSports.setAdapter(adapter);
+
     }
 
     /**
-     * Metodo que permitevalidar las selecciones en los
-     * checkbos del usuario
-     *
-     * @return TRUE --> si solo se ha seleccionado 1 categoria
-     * FALSE --> SI no se han seleccionado categorias o mas de 1
+     * Metodo que se ejecutara al pulsar sobre un item del recycler view
      */
-    private boolean validateBet() {
-
-        boolean valid = true;
+    private void actionSelectedBet(int codeSelectedBet) {
 
         String message = ""; // Almacena el mensaje que sera mostrado al usuario
 
-        int countBets = countBets(); // Calculamos la cantidad de selecciones del usuario
+        // Almacenamos la seleccion
+        selectedBet = getSelectedBet(codeSelectedBet);
 
-        int codeSelectedBet = -1;
-        switch (countBets) { // Comprobamos en funcion de las selecciones
+        // Generamos los equipos
+        teams = generatedTeams(codeSelectedBet);
 
-            case 0: // Si no hay 0 selecciones
-                message = getString(R.string.menssage_no_bet);
-                Toast.makeText(BetsActivity.this, message, Toast.LENGTH_SHORT).show();
-                valid = false;
-                break;
-            case 1: // Si hay 1 seleccon
-                codeSelectedBet = betSelected(); // Obtenemos el codigo de la categoria que se ha seleccionado
+        // Creamos el mensaje que sera mostrado
+        message = getString(R.string.menssage_one_bet) + ": " + selectedBet;
 
-                this.teams = generatedTeams(codeSelectedBet); // Generamos los quipos
-                this.selectedBet = getSelectedBet(codeSelectedBet); // Obtenemos la cadena de la categoria
+        // Enviamos la informacion
+        sendData();
 
+        // Mostramos mensaje informativo
+        Toast.makeText(BetsActivity.this, message, Toast.LENGTH_SHORT).show();
 
-                break;
-            default: // Por defecto
-                if (countBets > 1) { // Si hay mas de 1 seleccion
-                    message = getString(R.string.menssage_some_bet);
-                    Toast.makeText(BetsActivity.this, message, Toast.LENGTH_SHORT).show();
-                }
-                valid = false;
-                break;
-        }
-
-        return valid;
+        // Cerramos la actividad
+        closeActivity();
 
     }
 
@@ -219,16 +153,16 @@ public class BetsActivity extends AppCompatActivity {
         String stSelectedBet = "";
 
         switch (codeBet) { // Comprobamos con los distinto codigos
-            case BET_FOOTBALL:
+            case CODE_FOOTBALL:
                 return getString(R.string.text_football);
 
-            case BET_TENNIS:
+            case CODE_TENNIS:
                 return getString(R.string.text_tennis);
 
-            case BET_BASKETBALL:
+            case CODE_BASKETBALL:
                 return getString(R.string.text_basketball);
 
-            case BET_HANDBALL:
+            case CODE_HANDBALL:
                 return getString(R.string.text_handball);
 
         }
@@ -251,7 +185,7 @@ public class BetsActivity extends AppCompatActivity {
         int aux = -1;
 
         switch (codeBet) { // Comprobamos de que categoria debemos generar los equipos
-            case BET_FOOTBALL:
+            case CODE_FOOTBALL:
 
                 int teamsFootball = TEAMS_FOOTBALL.length - 1; // Calculamos cuantos equipos hay
                 index = (int) (Math.random() * teamsFootball); // Generamos numero aleatoria
@@ -265,7 +199,7 @@ public class BetsActivity extends AppCompatActivity {
                 break;
 
             /// REPETIMSO EL PROCESO PARA CADA CATEGORIA
-            case BET_TENNIS:
+            case CODE_TENNIS:
                 int teamsTennis = TEAMS_TENNIS.length - 1;
                 index = (int) (Math.random() * teamsTennis);
                 team1 = TEAMS_TENNIS[index];
@@ -276,7 +210,7 @@ public class BetsActivity extends AppCompatActivity {
                 }
                 team2 = TEAMS_TENNIS[index];
                 break;
-            case BET_BASKETBALL:
+            case CODE_BASKETBALL:
                 int teamsBasketball = TEAMS_BASKETBALL.length - 1;
                 index = (int) (Math.random() * teamsBasketball);
                 team1 = TEAMS_BASKETBALL[index];
@@ -287,7 +221,7 @@ public class BetsActivity extends AppCompatActivity {
                 }
                 team2 = TEAMS_BASKETBALL[index];
                 break;
-            case BET_HANDBALL:
+            case CODE_HANDBALL:
                 int teamsHandball = TEAMS_HANDBALL.length - 1;
                 index = (int) (Math.random() * teamsHandball);
                 team1 = TEAMS_HANDBALL[index];
@@ -309,48 +243,60 @@ public class BetsActivity extends AppCompatActivity {
 
     }
 
+
     /**
-     * Metodo que permite ver cuantas selecciones ha hecho el usuario
-     *
-     * @return --> Numero de selecciones del usuario
+     * Metodo que permite enviar el resultado
+     * a la actividad que la lanzo
      */
-    private int countBets() {
-        int countBets = 0;
+    private void sendData() {
 
-        // Comprobamos cada una de la seleccion
-        if (checkFootball.isChecked())
-            countBets++;
-        if (checkTennis.isChecked())
-            countBets++;
-        if (checkBasketball.isChecked())
-            countBets++;
-        if (checkHandball.isChecked())
-            countBets++;
 
-        return countBets;
+        Intent intent = new Intent();
+
+        // Enviamos los datos necesarios
+        intent.putExtra("teams", this.teams);
+        intent.putExtra("selectedbet", this.selectedBet);
+
+        // indicamos que todo ha ido correctamente
+        setResult(RESULT_OK, intent);
+    }
+
+
+    /**
+     * Sobrescripcion del metodo que se produce al pulsar el boton de atras
+     *
+     * @param keyCode
+     * @param event
+     * @return
+     */
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        // Comporbamos que se haya pulsado el boton de retroceso
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+
+            actionReturn(); // Llamada a metodo
+            return true;
+        }
+
+        return super.onKeyDown(keyCode, event);
+    }
+
+
+    /**
+     * Metodo que se ejecuta al pulsar el boton Volver
+     **/
+    public void actionReturn() {
+        Toast.makeText(BetsActivity.this, getString(R.string.menssage_no_bet), Toast.LENGTH_SHORT).show();
+        closeActivity();
     }
 
     /**
-     * Metodo que permite obtener la seleccion del usuario
-     *
-     * @return --> COdigo de la categoria que ha seleccionado el usuario
+     * Metodo que finaliza la actividad actual
      */
-    private int betSelected() {
-
-        int codBet = 0;
-
-        // Comprobamos la seleccion del usuario
-        if (checkFootball.isChecked())
-            return BET_FOOTBALL;
-        if (checkTennis.isChecked())
-            return BET_TENNIS;
-        if (checkBasketball.isChecked())
-            return BET_BASKETBALL;
-        if (checkHandball.isChecked())
-            return BET_HANDBALL;
-
-        return codBet;
-
+    private void closeActivity() {
+        this.finish();
     }
+
 
 }
