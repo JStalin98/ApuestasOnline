@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    tools:context="com.example.jstalin.apuestasonline.AboutActivity">
+    tools:context="com.example.jstalin.apuestasonline.activities.AboutActivity">
 
 
     <TextView

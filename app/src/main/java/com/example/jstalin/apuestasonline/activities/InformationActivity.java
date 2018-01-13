@@ -63,6 +63,7 @@ public class InformationActivity extends AppCompatActivity {
      * a los componentes de la actividad
      */
     private void setDataInComponents() {
+
         this.userIntent.setText(user);
         this.betIntent.setText(bet);
         this.moneyBetIntent.setText(moneyBet);
