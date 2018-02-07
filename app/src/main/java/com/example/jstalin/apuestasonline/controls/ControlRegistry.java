@@ -32,6 +32,7 @@ public class ControlRegistry extends LinearLayout {
     private TextView title;
     private EditText name;
     private EditText email;
+    private EditText password;
     private EditText birthdate;
     private Button validate;
     private Button comeBack;
@@ -59,6 +60,7 @@ public class ControlRegistry extends LinearLayout {
      */
     public ControlRegistry(Context context, AttributeSet attrs) {
         super(context, attrs);
+
         initialize();
     }
 
@@ -85,9 +87,11 @@ public class ControlRegistry extends LinearLayout {
     private void inflaterLayout() {
         // Obtenemos el contexto
         String infService = Context.LAYOUT_INFLATER_SERVICE;
-        // Obtenmos el layout que se utilizara y asignamos al control
+
         LayoutInflater li =
                 (LayoutInflater) getContext().getSystemService(infService);
+
+        // Obtenmos el layout que se utilizara y asignamos al control
         li.inflate(R.layout.control_registry, this, true);
     }
 
@@ -99,6 +103,7 @@ public class ControlRegistry extends LinearLayout {
         this.title = (TextView) findViewById(R.id.textView_title);
         this.name = (EditText) findViewById(R.id.editText_name);
         this.email = (EditText) findViewById(R.id.editText_email);
+        this.password = (EditText) findViewById(R.id.editText_password);
         this.birthdate = (EditText) findViewById(R.id.editText_birthdate);
         this.comeBack = (Button) findViewById(R.id.button_return);
         this.validate = (Button) findViewById(R.id.button_validate);
@@ -183,10 +188,12 @@ public class ControlRegistry extends LinearLayout {
         // Obtenemos los datos
         String stName = this.name.getText().toString();
         String stEmail = this.email.getText().toString();
+        String stPassword = this.password.getText().toString();
         String stBirthdate = this.birthdate.getText().toString();
 
+
         // Devolvemos un objeto que contiene los datos
-        return new DataRegistry(stName, stEmail, stBirthdate);
+        return new DataRegistry(stName, stEmail,stPassword,stBirthdate);
 
     }
 

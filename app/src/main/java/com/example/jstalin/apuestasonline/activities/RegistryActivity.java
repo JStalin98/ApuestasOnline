@@ -1,10 +1,14 @@
 package com.example.jstalin.apuestasonline.activities;
 
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.jstalin.apuestasonline.Interfaces.OnValidateListener;
@@ -12,6 +16,7 @@ import com.example.jstalin.apuestasonline.controls.ControlRegistry;
 import com.example.jstalin.apuestasonline.Interfaces.OnReturnListener;
 import com.example.jstalin.apuestasonline.R;
 import com.example.jstalin.apuestasonline.lessons.DataRegistry;
+import com.example.jstalin.apuestasonline.databases.OnlineBetsDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -22,8 +27,14 @@ import java.util.Date;
  */
 public class RegistryActivity extends AppCompatActivity {
 
+    private OnlineBetsDatabase onlineBetsDatabase;
+    private SQLiteDatabase db;
+
+    Intent intentMain;
+
     // Variables con la informacion de la actividad
     private String name;
+    private String password;
     private String email;
     private String birthdate;
 
@@ -40,9 +51,13 @@ public class RegistryActivity extends AppCompatActivity {
 
     private void initComponents() {
 
+        onlineBetsDatabase = new OnlineBetsDatabase(this, OnlineBetsDatabase.NAME_BD, null, OnlineBetsDatabase.VERSION);
+        db = onlineBetsDatabase.getWritableDatabase();
+
         // Intanciamos las variabels a una cadena vacia
         this.name = "";
         this.email = "";
+        this.password ="";
         this.birthdate = "";
 
         // Obtenemos el control del xml
@@ -83,6 +98,7 @@ public class RegistryActivity extends AppCompatActivity {
 
         this.name = data.getName();
         this.email = data.getEmail();
+        this.password = data.getPassword();
         this.birthdate = data.getBirthdate();
 
     }
@@ -96,12 +112,16 @@ public class RegistryActivity extends AppCompatActivity {
 
         if (validateData()) {// Validamos los datos
             menssageOk = getString(R.string.text_acceptRegistry); // Asignamos mensaje
-            sendData();// Enviamos los datos
+           // sendData();// Enviamos los datos
+            insertUserInBD();
+            updatePreferences();
             Toast.makeText(RegistryActivity.this, menssageOk, Toast.LENGTH_SHORT).show(); // Mostramos mensaje
+            openMain();
             closeActivity();// Cerramos la actividad
         }
 
     }
+
 
     /**
      * Metodo que  permite validar los datos introducidos por el usuario
@@ -126,7 +146,17 @@ public class RegistryActivity extends AppCompatActivity {
             if (!validateEmail(email)) { // Comprobamos si el email es valido
                 mesaggeError = getString(R.string.error_email);
                 Toast.makeText(RegistryActivity.this, mesaggeError, Toast.LENGTH_SHORT).show();
+
                 return false;
+            }
+
+            if(!validateEmailInBD(email)){
+                Toast.makeText(RegistryActivity.this, getString(R.string.error_emailAlreadyRegistry), Toast.LENGTH_SHORT).show();
+                return false;
+            }
+
+            if(!validatePassword(password)){
+                Toast.makeText(RegistryActivity.this, getString(R.string.text_passwordInvalid), Toast.LENGTH_SHORT).show();
             }
 
             if (!validateAge()) {// Comprobamos si la edad es valida
@@ -154,6 +184,8 @@ public class RegistryActivity extends AppCompatActivity {
             return false;
         if (email.length() == 0)
             return false;
+        if(password.length() == 0)
+            return false;
         if (birthdate.length() == 0)
             return false;
 
@@ -169,8 +201,6 @@ public class RegistryActivity extends AppCompatActivity {
      * @return TRUE si es valido, FALSE si no lo es
      */
     private boolean validateEmail(String email) {
-
-        Log.d("ERROR", email + "_------------------");
 
         boolean valid = false;
         boolean bandera = false;
@@ -193,8 +223,40 @@ public class RegistryActivity extends AppCompatActivity {
             }
         }
 
+        return true;
+
+    }
+
+    private boolean validateEmailInBD(String email){
+
+        boolean valid = true;
+
+        String sqlGetUser = "SELECT email FROM user WHERE email='" + email +"'";
+
+        Cursor row = db.rawQuery(sqlGetUser, null);
+
+        if(row.moveToFirst()){
+
+            String emailDB = row.getString(0);
+
+            if (email.equals(emailDB)){
+                valid = false;
+            }
+
+        }
+
         return valid;
 
+
+    }
+
+    private boolean validatePassword(String password){
+        boolean valid = true;
+
+        if(password.isEmpty())
+            valid = false;
+
+        return valid;
     }
 
 
@@ -282,6 +344,39 @@ public class RegistryActivity extends AppCompatActivity {
 
     }
 
+    private void openMain(){
+
+        intentMain = new Intent(getBaseContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(intentMain);
+
+    }
+
+
+    private void insertUserInBD(){
+
+        ContentValues newUser = new ContentValues();
+
+        newUser.put("name", name);
+        newUser.put("email", email);
+        newUser.put("password", password);
+
+        db.insert("user","id", newUser);
+
+
+
+    }
+
+    private void updatePreferences(){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editorPreferences = preferences.edit();
+
+        editorPreferences.putString("preferenceUser", name);
+        editorPreferences.putString("preferencePassword", password);
+        editorPreferences.putString("preferenceEmail", email);
+        editorPreferences.commit();
+
+    }
 
     /**
      * Metodo que se ejecutara al pulsar el boton Volver

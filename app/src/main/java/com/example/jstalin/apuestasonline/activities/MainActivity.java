@@ -1,9 +1,14 @@
 package com.example.jstalin.apuestasonline.activities;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -12,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jstalin.apuestasonline.R;
+import com.example.jstalin.apuestasonline.databases.OnlineBetsDatabase;
 
 /**
  * Clase principal de la cual se ejecutaran las diferentes Actividades
@@ -22,38 +28,39 @@ public class MainActivity extends AppCompatActivity {
     private String user = "";
     private String bet = "";
     private String moneyBet = "";
+    private String team1 = "";
+    private String team2 = "";
     private String teams = "";
+    private String result1 = "";
+    private String result2 = "";
     private String result = "";
 
 
+
     // Intents que se utilizaran para abrir las diferente actividades
-    private Intent intentRegistry;
     private Intent intentBets;
     private Intent intentSettings;
-    private Intent intentDraw;
-    private Intent intentInformation;
+    private Intent intentResult;
     private Intent intentAbout;
     private Intent intentHelp;
+    private Intent intentPreferences;
 
     // Refernecia del id de cada una de las opciones del Menu
     private final int OPTION_ABOUT = R.id.option_about;
     private final int OPTION_HELP = R.id.option_help;
-    private final int OPTION_INFORMATION = R.id.option_informationBet;
+    private final int OPTION_PREFERENCES = R.id.option_preferences;
 
 
     // Referencia a un campo de texto que contendra un mensaje de bienvenida
     private TextView welcome;
 
     // COdigos de los diferentes Intents
-    private static final int REGISTRY_CODE = 1;
-    private static final int BETS_CODE = 2;
-    private static final int SETTINGS_CODE = 3;
-    private static final int DRAW_CODE = 4;
+    private static final int BETS_CODE = 1;
+    private static final int SETTINGS_CODE = 2;
 
     // Variables que permiten saber en que estado se encuentra la actividad
-    private boolean isRegistry = false;
     private boolean isBet = false;
-    private boolean canDraw = false;
+
 
 
     @Override
@@ -72,16 +79,19 @@ public class MainActivity extends AppCompatActivity {
 
         // Intanciamos cada unos de los intents que van a ser lanzados
 
-        this.intentRegistry = new Intent(this, RegistryActivity.class);
         this.intentBets = new Intent(this, BetsActivity.class);
         this.intentSettings = new Intent(this, SettingsActivity.class);
-        this.intentDraw = new Intent(this, DrawActivity.class);
+        this.intentResult = new Intent(this, ResultActivity.class);
         this.intentAbout = new Intent(this, AboutActivity.class);
         this.intentHelp = new Intent(this, HelpActivity.class);
-        this.intentInformation = new Intent(this, InformationActivity.class);
+        this.intentResult = new Intent(this, ResultActivity.class);
+        this.intentPreferences = new Intent(this, PreferencesActivity.class);
 
         // Intanciamos el TextView
         this.welcome = (TextView) findViewById(R.id.textView_welcome);
+
+
+        setWelcome();
 
     }
 
@@ -113,11 +123,20 @@ public class MainActivity extends AppCompatActivity {
         if (teams != null)
             state.putString("teams", teams);
 
+        if (team1 != null)
+            state.putString("team1", team1);
+
+        if (team2 != null)
+            state.putString("team2", team2);
+
         if (result != null)
             state.putString("result", result);
 
-        if (isRegistry)
-            state.putBoolean("isregistry", isRegistry);
+        if (result1 != null)
+            state.putString("result1", result1);
+
+        if (result2 != null)
+            state.putString("result2", result2);
 
         if (isBet)
             state.putBoolean("isbet", isBet);
@@ -143,9 +162,12 @@ public class MainActivity extends AppCompatActivity {
             this.bet = state.getString("bet");
             this.moneyBet = state.getString("moneybet");
             this.teams = state.getString("teams");
+            this.team1 = state.getString("team1");
+            this.team2 = state.getString("team2");
             this.result = state.getString("result");
+            this.result1 = state.getString("resul1");
+            this.result2 = state.getString("resul1");
 
-            isRegistry = state.getBoolean("isregistry");
             isBet = state.getBoolean("isbet");
         }
 
@@ -183,8 +205,8 @@ public class MainActivity extends AppCompatActivity {
             case OPTION_HELP:
                 openHelp();
                 return true;
-            case OPTION_INFORMATION:
-                openInformation();
+            case OPTION_PREFERENCES:
+                openPreferences();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -206,33 +228,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intentHelp);
     }
 
-    /**
-     * Metodo que se ejecutar al pulsar en el boton Informacion
-     */
-    private void openInformation() {
-        String messageError = "";
-
-        if (isRegistry) { // Comprobamos si se ha registrado
-            updateIntentInformation();
-            startActivity(intentInformation);
-        } else {
-            messageError = getString(R.string.error_noregistred);
-            Toast.makeText(MainActivity.this, messageError, Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
-    /**
-     * Metodo que actualiza la informacion que va ser enviada por el intent
-     */
-    private void updateIntentInformation() {
-
-        this.intentInformation.putExtra("user", this.user);
-        this.intentInformation.putExtra("selectedbet", this.bet);
-        this.intentInformation.putExtra("moneybet", this.moneyBet);
-        this.intentInformation.putExtra("teams", this.teams);
-        this.intentInformation.putExtra("result", this.result);
-
+    private void openPreferences(){
+        startActivity(intentPreferences);
     }
 
 
@@ -260,11 +257,6 @@ public class MainActivity extends AppCompatActivity {
     private void tryAnswers(int requestCode, int resultCode, Intent data) {
 
         switch (requestCode) { // Comprobamos el cdogio de respuesta y tratamos en funcion de eello
-            case (REGISTRY_CODE):
-                if (isResultOk(resultCode)) {
-                    responseActionRegistry(data);
-                }
-                break;
             case (BETS_CODE):
                 if (isResultOk(resultCode)) {
                     responseActionBets(data);
@@ -292,33 +284,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Metodo que permite tratar los datos devueltos por la actividad Registro
-     *
-     * @param data
-     */
-    private void responseActionRegistry(Intent data) {
-
-        // Obtenemos el nombre
-        String name = data.getExtras().getString("name");
-        // ASignamos el nombre a la variable user
-        this.user = name;
-
-        // Mostramos mensaje de bienvenida
-        setWelcome(name);
-
-        // Cambiamos el valor de si esta registrado a verdadero
-        isRegistry = true;
-
-    }
-
-    /**
      * MEtodo que permite ejecutar un mensaje de bienvenida
      *
-     * @param name
      */
-    private void setWelcome(String name) {
+    private void setWelcome() {
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+
         String stWelcome = getString(R.string.text_welcome);
-        String messageWelcome = stWelcome + "  " + name;
+        String userName = preferences.getString("preferenceUser", "NONE");
+
+        String messageWelcome = stWelcome + "  " + userName;
 
         welcome.setText(messageWelcome);
 
@@ -337,7 +314,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Asignamos los valores obtenidos a las variables
         this.bet = selectedBet;
+        this.team1 = teams[0];
+        this.team2 = teams[1];
         this.teams = teams[0] + " - " + teams[1];
+
 
 
         // Cambiamos el valor de si ha hecho apuesta a verdadero
@@ -358,19 +338,47 @@ public class MainActivity extends AppCompatActivity {
 
         // Los tasignamos a las variables
         this.moneyBet = moneyBet;
+        this.result1 = result[0];
+        this.result2 = result[1];
         this.result = result[0] + " - " + result[1];
 
-    }
+        savedBetInBD();
 
-    /**
-     * Metodo que se ejecutar al pulsar en el boton Registro
-     *
-     * @param v
-     */
-    public void openRegistry(View v) {
-        startActivityForResult(intentRegistry, REGISTRY_CODE);
+        isBet = false;
 
     }
+
+    private void savedBetInBD(){
+
+        OnlineBetsDatabase onlineBetsDatabase = new OnlineBetsDatabase(MainActivity.this, OnlineBetsDatabase.NAME_BD, null, OnlineBetsDatabase.VERSION);
+        SQLiteDatabase db = onlineBetsDatabase.getWritableDatabase();
+
+        String email = PreferenceManager.getDefaultSharedPreferences(this).getString("preferenceEmail","");
+        int codeSport = PreferenceManager.getDefaultSharedPreferences(this).getInt("preferenceSport", -1);
+
+        String[] argsUser = new String[]{email};
+        String[] columns = new String[]{"id"};
+
+        Cursor cursorUser = db.query(OnlineBetsDatabase.Tables.USER, columns, "email=?", argsUser, null, null, null);
+        cursorUser.moveToFirst();
+        int idUser = cursorUser.getInt(0);
+
+        ContentValues newBet = new ContentValues();
+        newBet.put("user", idUser);
+        newBet.put("codeSport", codeSport);
+        newBet.put("money", Double.parseDouble(moneyBet));
+        newBet.put("team1", team1);
+        newBet.put("team2", team2);
+        newBet.put("result1", Integer.parseInt(result1));
+        newBet.put("result2", Integer.parseInt(result2));
+
+
+       db.insert(OnlineBetsDatabase.Tables.BET, "id", newBet);
+        db.close();
+
+
+    }
+
 
     /**
      * Metodo que se ejecutar al pulsar en el boton Apuestas
@@ -379,14 +387,9 @@ public class MainActivity extends AppCompatActivity {
      */
     public void openBets(View v) {
 
-        String messageError = "";
 
-        if (isRegistry) { // Comprobamos si se ha registrado
-            startActivityForResult(intentBets, BETS_CODE);
-        } else {
-            messageError = getString(R.string.error_registry);
-            Toast.makeText(MainActivity.this, messageError, Toast.LENGTH_SHORT).show();
-        }
+        startActivityForResult(intentBets, BETS_CODE);
+
 
     }
 
@@ -425,16 +428,9 @@ public class MainActivity extends AppCompatActivity {
      *
      * @param v
      */
-    public void openDraw(View v) {
+    public void openResult(View v) {
 
-        String messageError = "";
-
-        if (canDraw) {// Comprobamos si se puede realizar el sorteo
-            startActivity(intentDraw);
-        } else {
-            messageError = getString(R.string.error_draw);
-            Toast.makeText(MainActivity.this, messageError, Toast.LENGTH_SHORT).show();
-        }
+            startActivity(intentResult);
 
     }
 

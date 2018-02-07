@@ -94,18 +94,21 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:layout_marginTop="20dp">
 
         <Button
             android:id="@+id/button_save"
             style="@style/button"
             android:text="@string/button_save"
+            android:layout_marginRight="5dp"
             android:onClick="actionSave"/>
 
         <Button
             android:id="@+id/button_return"
             style="@style/button"
             android:text="@string/button_return"
+            android:layout_marginLeft="5dp"
             android:onClick="actionReturn"/>
     </LinearLayout>
 </LinearLayout>

@@ -1,10 +1,13 @@
 package com.example.jstalin.apuestasonline.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -49,6 +52,9 @@ public class BetsActivity extends AppCompatActivity {
 
     // Arraya Que contiene los deportes
     private ArrayList<Sport> sports;
+
+
+    private int codeSport = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +125,12 @@ public class BetsActivity extends AppCompatActivity {
      * Metodo que se ejecutara al pulsar sobre un item del recycler view
      */
     private void actionSelectedBet(int codeSelectedBet) {
+
+
+
+        codeSport = codeSelectedBet;
+
+        Log.d("CODE SPOR" , codeSport + "------------");
 
         String message = ""; // Almacena el mensaje que sera mostrado al usuario
 
@@ -257,8 +269,22 @@ public class BetsActivity extends AppCompatActivity {
         intent.putExtra("teams", this.teams);
         intent.putExtra("selectedbet", this.selectedBet);
 
+
+        savedPreferenceSport();
+
         // indicamos que todo ha ido correctamente
         setResult(RESULT_OK, intent);
+    }
+
+    private void savedPreferenceSport(){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editorPreferences = preferences.edit();
+
+        editorPreferences.putInt("preferenceSport", codeSport);
+
+        editorPreferences.commit();
+
     }
 
 

@@ -8,18 +8,15 @@
     <!-- STRINGS MAIN -->
 
 
-    <string name="title_main">APUESTAS ONLINE</string>
-
     <string name="text_welcome">Bienvenido</string>
 
     <string name="button_registry">REGISTRO</string>
     <string name="button_bets">APUESTAS</string>
     <string name="button_settings">AJUSTES</string>
-    <string name="button_draw">SORTEO</string>
 
     <!-- STRINGS SETTINGS -->
 
-    <string name="title_monet">DINERO</string>
+    <string name="title_monet">Dinero</string>
     <string name="title_combination">Combinacion</string>
 
     <string name="text_moneybet">Dinero a Apostar</string>
@@ -140,7 +137,6 @@ Agradecemos su atencion
 
     <string name="text_tab1">Dinero</string>
     <string name="text_tab2">Combinacion</string>
-    <string name="s"></string>
 
     <string name="error_registry">Error no puedes apostar si no te has registrado</string>
     <string name="error_bet">Error no puedes realizar ajustes si no has seleccionado el tipo de apuesta</string>
@@ -159,5 +155,43 @@ Agradecemos su atencion
     <string name="error_no_bets">Elige tu Apuesta</string>
     <string name="error_no_numbers">Elige tu combinacion ganadora</string>
     <string name="error_no_between">Error, cada combinacion debe ser entre 0 y 300</string>
+    <string name="title_login">INICIAR SESION</string>
+    <string name="hint_password">Contraseña</string>
+    <string name="button_login">INICIAR SESION</string>
+    <string name="text_noRegistry">¿No tienes cuenta? Registrate</string>
+    <string name="text_emailInvalid">Email vacio</string>
+    <string name="text_passwordInvalid">Contraseña vacia</string>
+    <string name="text_errorNoUserInBD">Email o Contraseña no validas</string>
+    <string name="text_categorySession">SESION</string>
+    <string name="text_keepSession">Mantener Sesion</string>
+    <string name="text_categoryUser">USER</string>
+    <string name="text_changeName">Cambiar nombre de usuario</string>
+    <string name="text_changePassword">Cambiar contraseña</string>
+    <string name="text_enterName">Introduce nombre de usuario</string>
+    <string name="text_enterPassword">Introduce contraseña</string>
+    <string name="text_categoryApplication">APLICACION</string>
+    <string name="text_language">Lenguage</string>
+    <string name="text_spanish">Español</string>
+    <string name="text_englis">Ingles</string>
+    <string name="text_selectedLanguage">Selecciona lenguage</string>
+    <string name="title_online">APUESTAS</string>
+    <string name="title_bet">EN LINEA</string>
+    <string name="button_result">RESULTADO</string>
+    <string name="error_emailAlreadyRegistry">Este email ya se encuentra registrado</string>
+    <string name="title_result">RESULTADOS</string>
+    <string name="text_sport">Deporte</string>
+    <string name="text_id">ID_ENCUENTRO</string>
+    <string name="text_team1">Equipo 1</string>
+    <string name="text_team2">Equipo 2</string>
+    <string name="text_result1">Resultado 1</string>
+    <string name="text_result2">Resultado 2</string>
+    <string name="error_noResult">No hay resultados</string>
+    <string name="button_addResult">AÑADIR RESULTADO</string>
+    <string name="hint_team1">Equipo 1</string>
+    <string name="hint_team2">Equipo 2</string>
+    <string name="hint_result1">Resultado 1</string>
+    <string name="hint_result2">Resultado 2</string>
+    <string name="button_add">AÑADIR</string>
+    <string name="option_preferences">Preferencias</string>
 
 </resources>

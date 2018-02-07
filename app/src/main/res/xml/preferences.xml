@@ -1,0 +1,30 @@
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="@string/text_categorySession">
+        <CheckBoxPreference
+            android:key="preferenceKeepUser"
+            android:title="@string/text_keepSession" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/text_categoryUser">
+        <EditTextPreference
+            android:key="preferenceUser"
+            android:title="@string/text_changeName"
+            android:dialogTitle="@string/text_enterName" />
+        <EditTextPreference
+            android:key="preferencePassword"
+            android:title="@string/text_changePassword"
+            android:dialogTitle="@string/text_enterPassword" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/text_categoryApplication">
+
+        <ListPreference
+            android:key="preferenceLanguage"
+            android:title="@string/text_language"
+            android:dialogTitle="@string/text_selectedLanguage"
+            android:entries="@array/languages"
+            android:entryValues="@array/codelanguages" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

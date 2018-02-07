@@ -1,53 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp"
-    tools:context="com.example.jstalin.apuestasonline.activities.MainActivity">
-
-
-    <TextView
-        android:id="@+id/textView_title"
-        android:text="@string/title_main"
-        style="@style/title"
-        android:textStyle="bold"/>
-
+    android:background="@color/colorSecondary"
+    tools:context="com.example.jstalin.apuestasonline.activities.LoginActivity">
 
     <TextView
         android:id="@+id/textView_welcome"
-        style="@style/title" />
+        style="@style/title"
+        android:layout_width="0dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textAlignment="center"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView_title"
+            style="@style/title"
+            android:layout_marginRight="5dp"
+            android:text="@string/title_online"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="77dp"
+            tools:layout_editor_absoluteY="129dp" />
 
 
-    <Button
-        android:id="@+id/button_registry"
-        android:text="@string/button_registry"
-        style="@style/button"
-        android:layout_width="match_parent"
-        android:onClick="openRegistry"/>
+        <TextView
+            style="@style/title"
+            android:layout_marginLeft="5dp"
+            android:text="@string/title_bets"
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="162dp"
+            tools:layout_editor_absoluteY="112dp" />
+
+    </LinearLayout>
+
 
     <Button
         android:id="@+id/button_bets"
-        android:text="@string/button_bets"
         style="@style/button"
-        android:layout_width="match_parent"
-        android:onClick="openBets"/>
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:onClick="openBets"
+        android:text="@string/button_bets"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView_welcome"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/button_settings"
         style="@style/button"
-        android:layout_width="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:onClick="openSettings"
-        android:text="@string/button_settings" />
+        android:text="@string/button_settings"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_bets"
+        tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/button_draw"
+        android:id="@+id/button_result"
         style="@style/button"
-        android:layout_width="match_parent"
-        android:onClick="openDraw"
-        android:text="@string/button_draw" />
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:onClick="openResult"
+        android:text="@string/button_result"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_settings" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>
