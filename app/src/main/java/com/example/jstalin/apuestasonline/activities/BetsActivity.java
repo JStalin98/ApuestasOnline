@@ -54,6 +54,7 @@ public class BetsActivity extends AppCompatActivity {
     private ArrayList<Sport> sports;
 
 
+    // Variale que almacena el codigo del deporte seleccionado
     private int codeSport = -1;
 
     @Override
@@ -127,7 +128,7 @@ public class BetsActivity extends AppCompatActivity {
     private void actionSelectedBet(int codeSelectedBet) {
 
 
-
+        // Asignamos el codigo seleccionado
         codeSport = codeSelectedBet;
 
         Log.d("CODE SPOR" , codeSport + "------------");
@@ -276,6 +277,9 @@ public class BetsActivity extends AppCompatActivity {
         setResult(RESULT_OK, intent);
     }
 
+    /**
+     * Metodo que guarda en las preferencias el codigo del deporte que se ha seleccionado
+     */
     private void savedPreferenceSport(){
 
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);

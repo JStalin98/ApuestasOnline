@@ -29,11 +29,12 @@ import com.example.jstalin.apuestasonline.lessons.TableResult;
 import java.util.ArrayList;
 
 /**
- * Clase sin funcionalidad
+ * Clase en la que se mostraran los datos de las apuestas del usuario
+ * del deporte que tenga seleccionado
  */
 public class ResultActivity extends AppCompatActivity {
 
-
+    // Componentes del XML
     private TextView textViewSport;
 
     private Button buttonAddResult;
@@ -52,6 +53,9 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que inicializa los componentes
+     */
     private void initComponent() {
 
         tableResult = new TableResult(this, (TableLayout) findViewById(R.id.tableResult));
@@ -59,13 +63,16 @@ public class ResultActivity extends AppCompatActivity {
         buttonAddResult = (Button) findViewById(R.id.button_addResult);
 
 
+        // Comporamos si se tiene deporte seelccionado
         if (!isSelectedSport())
             buttonAddResult.setEnabled(false);
-
 
     }
 
 
+    /**
+     * Metodo que permite obtener las apuestas de la BD
+     */
     private void getBetsInBD() {
 
         OnlineBetsDatabase onlineBetsDatabase = new OnlineBetsDatabase(ResultActivity.this, OnlineBetsDatabase.NAME_BD, null, OnlineBetsDatabase.VERSION);
@@ -96,21 +103,25 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que procesa las filas devuevltas por la consulta
+     * @param c
+     */
     private void processQueryResult(Cursor c) {
 
 
         if (c.moveToFirst()) {
 
-            Log.d("ENTRO PRIMER REGISTRO", "ENTRO MOVE TO FIRST");
-
+            // Ponemos el titulo dl deporte
             setSporText();
 
-            Log.d("ENTRO PRIMER REGISTRO", "SALGO MOVE TO FIRST");
-
+            // Añadimos cabecera
             tableResult.addHead(R.array.head_table);
 
             ArrayList<String> newRow = new ArrayList<String>();
             do {
+
+                // Otenemos blores
                 newRow.removeAll(newRow);
                 int idBD = c.getInt(0);
                 String team1DB = c.getString(1);
@@ -125,7 +136,7 @@ public class ResultActivity extends AppCompatActivity {
                 newRow.add(String.valueOf(result1DB));
                 newRow.add(String.valueOf(result2DB));
 
-                tableResult.addRowTable(newRow);
+                tableResult.addRowTable(newRow); // Añadimos los valores
 
             } while (c.moveToNext());
 
@@ -138,6 +149,10 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que permite mostrar un dialogo simple con un texto
+     * @param message
+     */
     private void showDialogSimple(String message) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -150,12 +165,14 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que permite asignar el deporte que se tiene seleccionado en la vista
+     */
     private void setSporText() {
 
 
         int codeSportPrefered = PreferenceManager.getDefaultSharedPreferences(this).getInt("preferenceSport", -1);
 
-        Log.d("TEXT SPORT ", "ENTRO CODE SPOR PREFERENCE  " + codeSportPrefered);
 
         String textSport = getSelectedBet(codeSportPrefered);
 
@@ -164,6 +181,12 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que segun el codigo devuelve el nombre del deporte
+     * seleccionado
+     * @param codeBet
+     * @return
+     */
     private String getSelectedBet(int codeBet) {
 
         String stSelectedBet = "";
@@ -186,6 +209,10 @@ public class ResultActivity extends AppCompatActivity {
         return stSelectedBet;
     }
 
+    /**
+     * Metodo que compurbea si se tiene selecciona un deporte
+     * @return
+     */
     private boolean isSelectedSport() {
 
         int code = PreferenceManager.getDefaultSharedPreferences(this).getInt("preferenceSport", -1);
@@ -196,6 +223,10 @@ public class ResultActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que abre la actividad AddResult
+     * @param v
+     */
     public void openAddResult(View v) {
 
         Intent i = new Intent(this, AddResultActivity.class);

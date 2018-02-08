@@ -17,8 +17,12 @@ import java.util.ArrayList;
  * Created by JStalin on 07/02/2018.
  */
 
+/**
+ * CLase que contiene un table layout en la cual podremos añadir filas dinamicamente
+ */
 public class TableResult {
 
+    // Atributos
     private TableLayout table;
     private ArrayList<TableRow> rows;
     private Activity activity;
@@ -39,6 +43,7 @@ public class TableResult {
 
     }
 
+    // Metodo para añadir cabecera a la tabla
     public void addHead(int resourceHead) {
 
 
@@ -70,7 +75,10 @@ public class TableResult {
     }
 
 
-
+    /**
+     * Metodo para añadir una fila a la tabla
+     * @param elements
+     */
     public void addRowTable(ArrayList<String> elements)
     {
         TableRow.LayoutParams layoutCell;
@@ -97,6 +105,11 @@ public class TableResult {
         N_ROWS++;
     }
 
+    /**
+     * Metodo que obtiene el ancho en pixeles de un texto
+     * @param text
+     * @return
+     */
     private int getWidthPixelsText(String text)
     {
         Paint p = new Paint();

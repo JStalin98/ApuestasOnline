@@ -193,5 +193,6 @@ Agradecemos su atencion
     <string name="hint_result2">Resultado 2</string>
     <string name="button_add">AÑADIR</string>
     <string name="option_preferences">Preferencias</string>
+    <string name="text_signOf">Cerrar Sesion</string>
 
 </resources>

@@ -4,8 +4,12 @@ package com.example.jstalin.apuestasonline.lessons;
  * Created by JStalin on 07/02/2018.
  */
 
+/**
+ * Clase que permite gestionar la informacion sobre una apuesta
+ */
 public class BetInformation {
 
+    // Atributos
     private int id;
     private String sport;
     private String team1;
@@ -33,6 +37,8 @@ public class BetInformation {
         this.result1 = result1;
         this.result2 = result2;
     }
+
+    // GETTERS AND SETTERS
 
     public int getId() {
         return id;

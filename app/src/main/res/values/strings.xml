@@ -43,6 +43,8 @@
 
     <string name="text_welcome">Welcome</string>
 
+    <string name="text_signOf">SIGN OF</string>
+
     <string name="button_registry">REGISTRY</string>
     <string name="button_bets">BETS</string>
     <string name="button_settings">SETTINGS</string>

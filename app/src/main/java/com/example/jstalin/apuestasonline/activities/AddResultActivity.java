@@ -17,8 +17,14 @@ import android.widget.Toast;
 import com.example.jstalin.apuestasonline.R;
 import com.example.jstalin.apuestasonline.databases.OnlineBetsDatabase;
 
+
+/**
+ * Actividad que permite añadir un nuevo resultado a la base de datos
+ */
 public class AddResultActivity extends AppCompatActivity {
 
+
+    // Variables con referencias a los componente sdel XML
     private EditText editText_team1;
     private EditText editText_team2;
 
@@ -33,6 +39,10 @@ public class AddResultActivity extends AppCompatActivity {
         inirComponents();
     }
 
+
+    /**
+     * Metodo para iniciar componentes
+     */
     private void inirComponents(){
 
         editText_team1 = (EditText)findViewById(R.id.editText_team1);
@@ -43,6 +53,11 @@ public class AddResultActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Metodo que ejecuta el boton AÑADIR
+     * @param v
+     */
     public void actionAddResult(View v){
 
 
@@ -53,11 +68,15 @@ public class AddResultActivity extends AppCompatActivity {
             closeActivity();
 
         }else {
-            Toast.makeText(AddResultActivity.this, "Faltan datos", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AddResultActivity.this, getString(R.string.error_missignDate), Toast.LENGTH_SHORT).show();
         }
 
     }
 
+    /**
+     * Metodo para validar los datos del actibity
+     * @return TRUE si se han escrito en todos los campos, FALSE si no lo stan
+     */
     private boolean validateData(){
 
         String team1 = editText_team1.getText().toString();
@@ -84,6 +103,9 @@ public class AddResultActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que  vulve a abrir la actividad Resultados
+     */
     private void reloadResultActivity(){
 
         Intent i = new Intent(this, ResultActivity.class);
@@ -92,6 +114,10 @@ public class AddResultActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que se conecta a la BD y añade un nuevo resultado
+     * Tomando los datos introducidos por el usuario
+     */
     private void addNewResultInBD(){
 
         OnlineBetsDatabase onlineBetsDatabase = new OnlineBetsDatabase(AddResultActivity.this, OnlineBetsDatabase.NAME_BD, null, OnlineBetsDatabase.VERSION);
@@ -122,6 +148,11 @@ public class AddResultActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Metodo que se ejecuta al pulsar el boton Volver
+     * @param v
+     */
     public void actionReturn(View v){
 
         closeActivity();
@@ -129,6 +160,10 @@ public class AddResultActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Metodo que finaliza la actividad
+     */
     private void closeActivity(){
 
         finish();

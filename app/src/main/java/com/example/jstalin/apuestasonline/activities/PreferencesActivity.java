@@ -8,8 +8,12 @@ import android.view.KeyEvent;
 
 import com.example.jstalin.apuestasonline.lessons.PreferencesFragment;
 
+/**
+ * Actividad en la cual se van a escoger las preferencias del usuario
+ */
 public class PreferencesActivity extends AppCompatActivity {
 
+    // Intene que va abrir
     private Intent intentMain;
 
     @Override
@@ -23,6 +27,12 @@ public class PreferencesActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * SPbreescribimos el metodo que se ejecuta al pulsar el boton de volver atras
+     * @param keyCode
+     * @param event
+     * @return
+     */
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -37,7 +47,9 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * Metodo que permite abrir la actividad Main
+     */
     private void openMain(){
 
 

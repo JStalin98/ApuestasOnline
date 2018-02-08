@@ -22,24 +22,31 @@ import com.example.jstalin.apuestasonline.databases.OnlineBetsDatabase;
 import java.util.Locale;
 
 /**
- * Clase principal de la cual se ejecutaran las diferentes Actividades
+ * Actividad para logear al usuario en el sistema
  */
 public class LoginActivity extends AppCompatActivity {
 
 
+    // Variables que almacena
     private String userName = "";
     private String userPassword = "";
     private String userEmail = "";
 
+
+    // Intenet que va abrir
     private Intent intentMain;
     private Intent intentRegistry;
 
+
+    // Conexion a BD
     private OnlineBetsDatabase onlineBetsDatabase;
     private SQLiteDatabase db;
 
+    // Preferencias
     private SharedPreferences preferences;
     private SharedPreferences.Editor editorPreferences;
 
+    // Componentes
     private TextInputLayout inputLayout_email;
     private TextInputLayout inputLayout_password;
     private Button button_login;
@@ -62,13 +69,20 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que asigna el lenguage
+     */
     private void setLanguage() {
 
         updateLanguageApplication();
     }
 
-    private void updateLanguageApplication() {
 
+    /**
+     * Metodo que actualiza el lenguage de la aplicacion en funcion de la preferencia
+     * que tenga puesta el usuario
+     */
+    private void updateLanguageApplication() {
 
         Locale localePhone = getCurrentLocale(this);
         Locale locale = null;
@@ -90,8 +104,6 @@ public class LoginActivity extends AppCompatActivity {
 
             if (!isNullLocale(locale)) {
 
-                Log.d("ENTRO LOCALE", "ENTRO");
-
                 config.locale = locale;
 
                 getResources().updateConfiguration(config, null);
@@ -103,6 +115,12 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que devuelve un objeto Locale con la configuacion del idioma local
+     * que tiene el sistema
+     * @param context
+     * @return
+     */
     private Locale getCurrentLocale(Context context) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             return context.getResources().getConfiguration().getLocales().get(0);
@@ -113,6 +131,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Metodo que permite reiniciar la actividad
+     */
     private void reloadActivity() {
 
         Intent refresh = new Intent(this, LoginActivity.class);
@@ -121,10 +142,18 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que comprueba si un objeto Locales es nulo
+     * @param locale
+     * @return TRUE si lo es, FALSE si no lo es
+     */
     private boolean isNullLocale(Locale locale) {
         return locale == null;
     }
 
+    /**
+     * MEtodo que inicia sesion con los datos que tiene alamcenado en las preferencias
+     */
     private void loginUserPreferences() {
 
 
@@ -139,6 +168,9 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que inicializa los componentes
+     */
     private void initComponents() {
 
 
@@ -157,6 +189,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que se ejecutara cuando se pulse el boton de Iniciar Sesion
+     * @param v
+     */
     public void actionLogin(View v) {
 
         if (validateData()) {
@@ -172,6 +208,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Metodo que se ejecutara si se pulsa en el ttexto inferior
+     * @param v
+     */
     public void actionRegistry(View v) {
         openRegistry();
     }
@@ -182,10 +223,17 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que cierra la actividad
+     */
     private void closeActivity(){
         finish();
     }
 
+    /**
+     * Metodo que permite mostrar un dialogo simple con un mensaje
+     * @param message
+     */
     private void showDialogSimple(String message) {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -198,12 +246,18 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que abre la actividad Main
+     */
     private void openMain() {
 
         intentMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intentMain);
     }
 
+    /**
+     * Metodo que abre la actividad Registro
+     */
     private void openRegistry() {
 
         intentRegistry = new Intent(this, RegistryActivity.class);
@@ -212,6 +266,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que valida los datos
+     * @return
+     */
     private boolean validateData() {
 
         if (validateEmail() && validatePassword())
@@ -222,6 +280,11 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * Metodo que valida el email
+     * @return
+     */
     private boolean validateEmail() {
 
         userEmail = inputLayout_email.getEditText().getText().toString();
@@ -238,6 +301,10 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que valida la contraseña
+     * @return
+     */
     private boolean validatePassword() {
 
         userPassword = inputLayout_password.getEditText().getText().toString();
@@ -252,8 +319,13 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * Metodo que valida el usuario en la base de datos
+     * @return
+     */
     private boolean validUserInBD() {
 
+        // Sentencia de consulta
         String sqlGetUser = "SELECT name, email, password FROM user WHERE email='" + userEmail + "' AND password='" + userPassword + "'";
 
         Cursor row = db.rawQuery(sqlGetUser, null);
@@ -263,10 +335,6 @@ public class LoginActivity extends AppCompatActivity {
             String nameDB = row.getString(0);
             String emailDB = row.getString(1);
             String passwordDB = row.getString(2);
-            Log.d("NAMEDB", nameDB);
-            Log.d("EMAILDB", emailDB);
-            Log.d("PASSWORDDB", passwordDB);
-
 
             if (userEmail.equals(emailDB) && userPassword.equals(passwordDB)) {
                 userName = nameDB;
@@ -276,11 +344,13 @@ public class LoginActivity extends AppCompatActivity {
             }
 
         }
-
-
         return false;
     }
 
+    /**
+     * Metodo que permite comprobar si el usuario tiene la preferencia de mantener sesion activada
+     * @return
+     */
     private boolean isKeepUser() {
 
 
@@ -290,6 +360,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    /**
+     * Metodo que permite actualizar los datos de las preferencias
+     */
     private void updatePreferences() {
 
         editorPreferences.putString("preferenceUser", userName);

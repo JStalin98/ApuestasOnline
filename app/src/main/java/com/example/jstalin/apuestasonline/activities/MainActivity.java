@@ -228,6 +228,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intentHelp);
     }
 
+    /**
+     * Metodo que se ejecuta al pulsar en la opcion preferencias
+     */
     private void openPreferences(){
         startActivity(intentPreferences);
     }
@@ -284,7 +287,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * MEtodo que permite ejecutar un mensaje de bienvenida
+     * MEtodo que permite poner un mensaje de bienvenida
      *
      */
     private void setWelcome() {
@@ -344,10 +347,15 @@ public class MainActivity extends AppCompatActivity {
 
         savedBetInBD();
 
+        // Volvemos a cambiar el valor para que se ejecute otra apuesta
         isBet = false;
 
     }
 
+    /**
+     * Metodo que permite guardar en la BD de datos la apuesta seleccionada
+     * por el usuario
+     */
     private void savedBetInBD(){
 
         OnlineBetsDatabase onlineBetsDatabase = new OnlineBetsDatabase(MainActivity.this, OnlineBetsDatabase.NAME_BD, null, OnlineBetsDatabase.VERSION);
@@ -431,6 +439,34 @@ public class MainActivity extends AppCompatActivity {
     public void openResult(View v) {
 
             startActivity(intentResult);
+
+    }
+
+    public void actionSignOf(View v){
+
+        Intent i = new Intent(this, LoginActivity.class);
+
+        clearPreferences();
+
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        startActivity(i);
+        finish();
+
+    }
+
+    private void clearPreferences(){
+
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = preferences.edit();
+
+        editor.putBoolean("preferenceKeepUser", false);
+        editor.putInt("preferenceSport", -1);
+        editor.putString("preferenceUser", "");
+        editor.putString("preferencePassword", "");
+        editor.putString("preferenceLanguage", "");
+        editor.putString("preferenceEmail", "");
+        editor.commit();
+
 
     }
 

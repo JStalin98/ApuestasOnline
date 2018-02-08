@@ -223,7 +223,7 @@ public class RegistryActivity extends AppCompatActivity {
             }
         }
 
-        return true;
+        return valid;
 
     }
 
@@ -346,7 +346,8 @@ public class RegistryActivity extends AppCompatActivity {
 
     private void openMain(){
 
-        intentMain = new Intent(getBaseContext(), MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intentMain = new Intent(getBaseContext(), MainActivity.class);
+        intentMain.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         startActivity(intentMain);
 
     }
